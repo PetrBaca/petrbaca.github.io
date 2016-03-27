@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Pokus 01
+title: Testovací příspěvek na nový blog
 author: Petr Baca
 published: false
 status: process
@@ -8,18 +8,21 @@ draft: false
 tags: R
 ---
 
-První pokus nevyšel, co tenhle?
+### První pořádný příspěvek
 
-To už je lepší. A jak funguje update?
+Hned takhle zhurta zkusíme, jak se zobrazí nějaký kód.
 
 ```{r}
-summary(cars)
+m <- matrix(runif(1000), nc = 50)
+colnames(m) <- paste0("Var_", 1:50)
+means <- colMeans(m)
 ```
 
-You can also embed plots, for example:
+No a nakonec dodáme graf.
 
-```{r, plot02, echo=TRUE}
-hist(rnorm(1000), col = "#0099CD50", main = "test")
+```{r, CLT, echo=TRUE}
+hist(means, col = "#0099CD50", main = "CLT", border = "#FFFFFF", freq = F)
+lines(density(means), col = "#003366", lwd = 2)
 ```
 
 __END__
