@@ -3,14 +3,14 @@
 # # # # # # # #
 
 # Basic
-name:               "Kiko"
-description:        "a clean, lightweight and minimalistic blog theme for jekyll"
+name:               "Petr Baca"
+description:        "lightweight and minimalistic blog about R"
 
 # jekyll-seo-tag, see: http://www.rubydoc.info/gems/jekyll-seo-tag/1.2.0
-url:                "//kiko.gfjaru.com"
-author:             "gfjaru"
+url:                "petrbaca.github.io"
+#author:             "gfjaru"
 twitter:
-  username:         "gfjaru"
+  username:         "PetrBaca"
 #facebook:
 #  app_id:           1234
 #    publisher:      1234
@@ -26,9 +26,9 @@ markdown:           kramdown
 # Navigation
 nav:
   - name:           "About"
-    href:           "//kiko.gfjaru.com/about"
-  - name:           "Download"
-    href:           "//github.com/gfjaru/Kiko/releases"
+    href:           "//petrbaca.github.io/about"
+#  - name:           "Download"
+#    href:           "//github.com/petrbaca/petrbaca.github.io/releases"
 
 # Sass
 sass:
