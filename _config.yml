@@ -27,8 +27,8 @@ markdown:           kramdown
 nav:
   - name:           "About"
     href:           "//petrbaca.github.io/about"
-  - name:           "Index"
-    href:           "//petrbaca.github.io/index"
+#  - name:           "Index"
+#    href:           "//petrbaca.github.io/index"
 #  - name:           "Download"
 #    href:           "//github.com/petrbaca/petrbaca.github.io/releases"
 
