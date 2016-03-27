@@ -1,0 +1,82 @@
+---
+layout: post
+title: Jak na data od EIA
+author: Petr Baca
+published: false
+status: process
+draft: false
+tags: R
+---
+##### Jak na data od EIA
+V posledních letech prudce roste množství dat dostupných prostřednictvím webových služeb. Jednou z organizací, která v posledních letech takto "vystavila" svá data, je americká [Energetická informační agentura](http://www.eia.gov) (EIA). EIA je vlastně jakousi statistickou jednotkou přidruženou k ministerstvu energetiky USA. Jejím úkolem však není jen sběr dat. EIA mimo jiné vytváří prognózy, přičemž zejména ta krátkodobá ([STEO](http://www.eia.gov/forecasts/steo/report/)) bývá bedlivě sledována. Proto, aby mohla EIA vykonávat své úkoly, tak udržuje velmi bohatou databázi dat (nejen) z energetiky. A právě tuto databázi se EIA nedávno rozhodla zpřístupnit prostřednictvím API.
+
+##### API od EIA? Skvělé!
+
+[API](http://en.wikipedia.org/wiki/Application_programming_interface), neboli rozhraní pro programování aplikací, se EIA rozhodně povedlo. Jde sice stále jen o beta-verzi, která trpí některými dětskými bolestmi (například jistou nekonzistencí kódů jednotlivých časových řad), ale i přes mladý věk poskytuje velmi užitečné a detailní informace. Po registraci a přidělení unikátního uživatelského klíče totiž umožňuje stahovat [XML](https://en.wikipedia.org/wiki/XML) soubory s energetickými daty přímo ze serveru s využitím [REST](http://en.wikipedia.org/wiki/Representational_state_transfer)ových služeb.
+
+Co to všechno znamená a jak to vlastně funguje? RESTové služby vlasně umožňují poslat do EIA databázový dotaz ve formě "webové adresy" (v podstatě stejně, jako když do prohlížeče napíšeme www.seznam.cz) a jako odpověď se vrátí data uložená v XML souboru. Zbývá už jen zvolit nástroj, pomocí kterého data stáhneme. Jelikož stažení dat je pouhým začátkem a zpravidla následuje jejich analýza, tak v našem případě zvolíme [R](http://www.r-project.org/) (jako ostatně pro vše na tomto blogu).
+
+##### EIA + R = <3
+
+Prostředí R je vůbec skvělé pro analýzu dat. Mimo jiné právě i proto, že podporuje [webové služby](http://cran.r-project.org/web/views/WebTechnologies.html). A jak tedy na samotné stažení dat z databáze EIA?
+
+K tomu budeme potřebovat některé externí knihovny ze seznamu výše. Jsou jimi zejména **RCurl** a **XML**. Pro následnou příjemnější práci s daty budeme potřebovat ještě knihovnu **xts**.
+
+Řekněme, že chceme stáhnout měsíční časovou řadu produkce ropy v USA. Po prohledání beta verze API EIA lze nalézt [tuto](http://www.eia.gov/opendata/qb.cfm?category=296686&sdid=PET.MCRFPUS2.M) stránku, která v podstatě obsahuje všechny podstatné informace. Samotné stažení dat a jejich zpracování obstará následující kód (na příslušné místo adresy musíte vložit vlastní API klíč).
+
+```{r true_url, echo = FALSE}
+URL <- "http://api.eia.gov/series/?api_key=A3C0FAC177DFBC4B1A4C157DC8198257&series_id=PET.MCRFPUS2.M&out=xml"
+```
+
+Nejprve načteme zmiňované knihovny, které potřebujeme pro práci.
+
+```{r load_packages, message=FALSE}
+library("RCurl") # stazeni dat
+library("XML") # 'parsovani' dat
+library("xts") # zpracovani dat do podoby casove rady
+```
+
+A nyní již hurá do práce samotné...
+
+```{r eia_data}
+# 'adresa' XML souboru
+# aby kód fungoval, tak je treba tento řádek odkomentovat a vlozit vlastní API klic
+
+#URL <- "http://api.eia.gov/series/?api_key=YOUR_API_KEY_HERE&series_id=PET.MCRFPUS2.M&out=xml"
+
+# dale predpokladame, ze jsme tak ucinili a zpracujeme vysledky dotazu
+
+# stahneme a "zpracujeme" XML
+XML <- getURL(URL, httpheader = list('User-Agent' = 'R-Agent'))
+tree <- xmlTreeParse(XML, useInternalNodes=TRUE)
+  
+# vytahneme z XMLka prislusne hodnoty
+date <- xpathSApply(tree,"//series/row/data/row/date", xmlValue)
+value <- xpathSApply(tree,"//series/row/data/row/value", function(x) as.numeric(xmlValue(x)))
+
+# data budou potrebovat jeste trochu prace
+# musime je dostat do takoveho formatu, aby R-ko pochopilo, ze jsou to skutecne datumy
+d <- as.Date(paste(substr(date, 1, 4),
+                   substr(date, 5, 6),
+                   "01", sep = "-"))
+
+# vysledek ulozime do promenne 'prod'
+prod <- xts(value, d); colnames(prod) <- "US_oil_prod"
+
+# a zobrazime produkci za poslednich 12 mesicu
+tail(prod, 12)
+
+```
+
+A na konec můžeme přidat i graf:
+
+```{r plot, echo=TRUE}
+plot(prod, main = "Měsíční produkce ropy v USA", ylab = "tisíce barelů denně")
+```
+
+Možná si říkáte, k čemu je to všechno dobré, když se na graf konec konců můžeme podívat i na webu a data můžeme stáhnout i do Excelu.
+
+Vězte, že důvodů je celá řada. Ten hlavní je, že takto vytvořený report je reprodukovatelný (za měsíc, až budou nová data, jej spustíme znovu, dojdeme si pro čaj a až se vrátíme, tak na nás čekají nové výsledky). Kód uvedený výše je sice jen "jednorázovka", ale fantazii se meze nekladou. Stahování a zpracování dat lze například snadno zabalit do vhodných funkcí, které by opakování těchto úkonů, například pro jinou časovou řadu, velmi usnadnily...
+
+A co se týče možností analýzy v Excelu a R, tak ty jsou v zásadě neporovnatelné:-). 
+
