@@ -8,7 +8,7 @@ draft: false
 tags: R
 ---
 ##### Jak na data od EIA
-V posledních letech prudce roste množství dat dostupných prostřednictvím webových služeb. Jednou z organizací, která v posledních letech takto "vystavila" svá data, je americká [Energetická informační agentura](http://www.eia.gov) (EIA). EIA je vlastně jakousi statistickou jednotkou přidruženou k ministerstvu energetiky USA. Jejím úkolem však není jen sběr dat. EIA mimo jiné vytváří prognózy, přičemž zejména ta krátkodobá ([STEO](http://www.eia.gov/forecasts/steo/report/)) bývá bedlivě sledována. Proto, aby mohla EIA vykonávat své úkoly, tak udržuje velmi bohatou databázi dat (nejen) z energetiky. A právě tuto databázi se EIA nedávno rozhodla zpřístupnit prostřednictvím API.
+V posledních letech prudce roste množství dat dostupných prostřednictvím webových služeb. Jednou z organizací, která v posledních letech takto "vystavila" svá data, je americká [Energetická informační administrativa](http://www.eia.gov) (EIA). EIA je vlastně jakousi statistickou jednotkou přidruženou k ministerstvu energetiky USA. Jejím úkolem však není jen sběr dat. EIA mimo jiné vytváří prognózy, přičemž zejména ta krátkodobá ([STEO](http://www.eia.gov/forecasts/steo/report/)) bývá bedlivě sledována. Proto, aby mohla EIA vykonávat své úkoly, tak udržuje velmi bohatou databázi dat (nejen) z energetiky. A právě tuto databázi se EIA nedávno rozhodla zpřístupnit prostřednictvím API.
 
 ##### API od EIA? Skvělé!
 
@@ -76,7 +76,7 @@ plot(prod, main = "Měsíční produkce ropy v USA", ylab = "tisíce barelů den
 
 Možná si říkáte, k čemu je to všechno dobré, když se na graf konec konců můžeme podívat i na webu a data můžeme stáhnout i do Excelu.
 
-Vězte, že důvodů je celá řada. Ten hlavní je, že takto vytvořený report je reprodukovatelný (za měsíc, až budou nová data, jej spustíme znovu, dojdeme si pro čaj a až se vrátíme, tak na nás čekají nové výsledky). Kód uvedený výše je sice jen "jednorázovka", ale fantazii se meze nekladou. Stahování a zpracování dat lze například snadno zabalit do vhodných funkcí, které by opakování těchto úkonů, například pro jinou časovou řadu, velmi usnadnily...
+Vězte, že důvodů je celá řada. Ten hlavní je, že takto vytvořený report je reprodukovatelný (za měsíc, až budou nová data, jej spustíme znovu, dojdeme si pro čaj (nebo se spíš jednou zatočíme na židli) a až se vrátíme, tak na nás čekají nové výsledky). Kód uvedený výše je sice jen "jednorázovka", ale fantazii se meze nekladou. Stahování a zpracování dat lze například snadno zabalit do vhodných funkcí, které by opakování těchto úkonů, například pro jinou časovou řadu, velmi usnadnily...
 
 A co se týče možností analýzy v Excelu a R, tak ty jsou v zásadě neporovnatelné:-). 
 
