@@ -8,7 +8,7 @@ draft: false
 tags: R
 ---
 ##### Jak na data od EIA
-V posledních letech prudce roste množství dat dostupných prostřednictvím webových služeb. Jednou z organizací, která v posledních letech takto "vystavila" svá data, je americká [Energetická informační administrativa](http://www.eia.gov) (EIA). EIA je vlastně jakousi statistickou jednotkou přidruženou k ministerstvu energetiky USA. Jejím úkolem však není jen sběr dat. EIA mimo jiné vytváří prognózy, přičemž zejména ta krátkodobá ([STEO](http://www.eia.gov/forecasts/steo/report/)) bývá bedlivě sledována. Proto, aby mohla EIA vykonávat své úkoly, tak udržuje velmi bohatou databázi dat (nejen) z energetiky. A právě tuto databázi se EIA nedávno rozhodla zpřístupnit prostřednictvím API.
+V posledních letech roste množství dat dostupných prostřednictvím webových služeb. Jednou z organizací, která v posledních letech takto "vystavila" svá data, je americká [Energetická informační administrativa](http://www.eia.gov) (EIA). EIA je vlastně jakousi statistickou jednotkou přidruženou k ministerstvu energetiky USA. Jejím úkolem však není jen sběr dat. EIA mimo jiné vytváří prognózy, přičemž zejména ta krátkodobá ([STEO](http://www.eia.gov/forecasts/steo/report/)) bývá bedlivě sledována. Proto, aby mohla EIA vykonávat své úkoly, tak udržuje velmi bohatou databázi dat (nejen) z energetiky. A právě tuto databázi se EIA nedávno rozhodla zpřístupnit prostřednictvím API.
 
 ##### API od EIA? Skvělé!
 
