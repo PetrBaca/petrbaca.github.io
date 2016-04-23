@@ -1,17 +1,17 @@
 ---
 layout: post
-title: How to - EIA data
+title: EIA data and R
 author: Petr Baca
 published: false
 status: process
 draft: false
 tags: R
 ---
-##### How to: EIA data
+##### EIA data and R
 
 Amount of data available via web services has been soaring in the recent years. One of the organisations that decided to make its data publicly available via web is the [Energy Information Administration](http://www.eia.gov) (EIA). The EIA is in fact something as a statistical arm of the US Department of Energy and its task is, among other things, to created widely and closely followed analyses such as the Short Term Energy Outlook([STEO](http://www.eia.gov/forecasts/steo/report/)). For that reason, the EIA also collects huge amount of energy-related data. And this data is now available via the API.
 
-##### API by EIA? Great!
+##### EIA API? Just great!
 
 [API](http://en.wikipedia.org/wiki/Application_programming_interface), or Application Programming Interface maintained by the EIA is great! Although it still is "just" a beta-version and as such suffers from some childhood diseases (for example, there are some inconsistencies in naming simillar time series), it is very useful source of information. After a (free) registration, the user can reques a unique user key to be able to download [XML](https://en.wikipedia.org/wiki/XML) files directly from the web via [REST](http://en.wikipedia.org/wiki/Representational_state_transfer)ful services.
 
@@ -21,11 +21,7 @@ After getting the data, all the user needs to do is to extract the information h
 
 ##### EIA & R = <3
 
-
-
-
-
-R certainly is one of the best tools for data analysis that is available. One of the reasons is that it supports [web technologies](http://cran.r-project.org/web/views/WebTechnologies.html). So, equipped with this kind of information, how should one proceed?
+R certainly is one of the best tools for data analysis that is easily available. One of the reasons is that it supports [web technologies](http://cran.r-project.org/web/views/WebTechnologies.html). So, equipped with this kind of information, how should one proceed?
 
 First, We will have to download some external libraries from the list above. Namely, we need __RCurl__ and __XML__ libraries. To be able to work with time series data more efficiently we will also get __xts__ library.
 
