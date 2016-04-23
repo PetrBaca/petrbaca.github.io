@@ -1,82 +1,90 @@
 ---
 layout: post
-title: Jak na data od EIA
+title: How to - EIA data
 author: Petr Baca
 published: false
-status: done_process
+status: process
 draft: false
 tags: R
 ---
-##### Jak na data od EIA
-V posledních letech roste množství dat dostupných prostřednictvím webových služeb. Jednou z organizací, která v posledních letech takto "vystavila" svá data, je americká [Energetická informační administrativa](http://www.eia.gov) (EIA). EIA je vlastně jakousi statistickou jednotkou přidruženou k ministerstvu energetiky USA. Jejím úkolem však není jen sběr dat. EIA mimo jiné vytváří prognózy, přičemž zejména ta krátkodobá ([STEO](http://www.eia.gov/forecasts/steo/report/)) bývá bedlivě sledována. Proto, aby mohla EIA vykonávat své úkoly, tak udržuje velmi bohatou databázi dat (nejen) z energetiky. A právě tuto databázi se EIA nedávno rozhodla zpřístupnit prostřednictvím API.
+##### How to: EIA data
 
-##### API od EIA? Skvělé!
+Amount of data available via web services has been soaring in the recent years. One of the organisations that decided to make its data publicly available via web is the [Energy Information Administration](http://www.eia.gov) (EIA). The EIA is in fact something as a statistical arm of the US Department of Energy and its task is, among other things, to created widely and closely followed analyses such as the Short Term Energy Outlook([STEO](http://www.eia.gov/forecasts/steo/report/)). For that reason, the EIA also collects huge amount of energy-related data. And this data is now available via the API.
 
-[API](http://en.wikipedia.org/wiki/Application_programming_interface), neboli rozhraní pro programování aplikací, se EIA rozhodně povedlo. Jde sice stále jen o beta-verzi, která trpí některými dětskými bolestmi (například jistou nekonzistencí kódů jednotlivých časových řad), ale i přes mladý věk poskytuje velmi užitečné a detailní informace. Po registraci a přidělení unikátního uživatelského klíče totiž umožňuje stahovat [XML](https://en.wikipedia.org/wiki/XML) soubory s energetickými daty přímo ze serveru s využitím [REST](http://en.wikipedia.org/wiki/Representational_state_transfer)ových služeb.
+##### API by EIA? Great!
 
-Co to všechno znamená a jak to vlastně funguje? RESTové služby vlasně umožňují poslat do EIA databázový dotaz ve formě "webové adresy" (v podstatě stejně, jako když do prohlížeče napíšeme www.seznam.cz) a jako odpověď se vrátí data uložená v XML souboru. Zbývá už jen zvolit nástroj, pomocí kterého data stáhneme. Jelikož stažení dat je pouhým začátkem a zpravidla následuje jejich analýza, tak v našem případě zvolíme [R](http://www.r-project.org/) (jako ostatně pro vše na tomto blogu).
+[API](http://en.wikipedia.org/wiki/Application_programming_interface), or Application Programming Interface maintained by the EIA is great! Although it still is "just" a beta-version and as such suffers from some childhood diseases (for example, there are some inconsistencies in naming simillar time series), it is very useful source of information. After a (free) registration, the user can reques a unique user key to be able to download [XML](https://en.wikipedia.org/wiki/XML) files directly from the web via [REST](http://en.wikipedia.org/wiki/Representational_state_transfer)ful services.
 
-##### EIA + R = <3
+What does it mean and how does it work? From user's viewpoint, RESTful services are in fact quite simple. All one needs to do is to send a 'database query' in a form of a particular 'web address'. That is, it reminds simply writing 'www.google.com' into web browsers window. As a response, the server returns an XML file that contains requested data.
 
-Prostředí R je vůbec skvělé pro analýzu dat. Mimo jiné právě i proto, že podporuje [webové služby](http://cran.r-project.org/web/views/WebTechnologies.html). A jak tedy na samotné stažení dat z databáze EIA?
+After getting the data, all the user needs to do is to extract the information he or she is looking for. To show an example, we will use [R](http://www.r-project.org/). The reason is simple. After getting the data the user usually wants to perform some sort of analysis and R is a great tool for such goal.
 
-K tomu budeme potřebovat některé externí knihovny ze seznamu výše. Jsou jimi zejména **RCurl** a **XML**. Pro následnou příjemnější práci s daty budeme potřebovat ještě knihovnu **xts**.
+##### EIA & R = <3
 
-Řekněme, že chceme stáhnout měsíční časovou řadu produkce ropy v USA. Po prohledání beta verze API EIA lze nalézt [tuto](http://www.eia.gov/opendata/qb.cfm?category=296686&sdid=PET.MCRFPUS2.M) stránku, která v podstatě obsahuje všechny podstatné informace. Samotné stažení dat a jejich zpracování obstará následující kód (na příslušné místo adresy musíte vložit vlastní API klíč).
+
+
+
+
+R certainly is one of the best tools for data analysis that is available. One of the reasons is that it supports [web technologies](http://cran.r-project.org/web/views/WebTechnologies.html). So, equipped with this kind of information, how should one proceed?
+
+First, We will have to download some external libraries from the list above. Namely, we need __RCurl__ and __XML__ libraries. To be able to work with time series data more efficiently we will also get __xts__ library.
+
+So, let's say we want to download monthly data on the US crude oil production. Anyone who has ever heard of "the shale revolution" would know that this kind of data has been attracting a lot of attention in the recent years.
+
+After a while one can easily find [this](http://www.eia.gov/opendata/qb.cfm?category=296686&sdid=PET.MCRFPUS2.M) webpage. It contains all the information we need to know, in particular the code of the series (__PET.MCRFPUS2.M__). If we have the code, we can retrieve and process the data using the following script (warning: you have to use your own API key to be able to use the script).
 
 ```{r true_url, echo = FALSE}
 URL <- "http://api.eia.gov/series/?api_key=A3C0FAC177DFBC4B1A4C157DC8198257&series_id=PET.MCRFPUS2.M&out=xml"
 ```
 
-Nejprve načteme zmiňované knihovny, které potřebujeme pro práci.
+First, we will activate the libraries.
 
 ```{r load_packages, message=FALSE}
-library("RCurl") # stazeni dat
-library("XML") # 'parsovani' dat
-library("xts") # zpracovani dat do podoby casove rady
+library("RCurl") # data retrieval
+library("XML") # XML parsing
+library("xts") # to be able to convert to a 'nice' time series object
+
 ```
 
-A nyní již hurá do práce samotné...
+The following chunk shows how to actually get and process the data.
 
 ```{r eia_data}
-# 'adresa' XML souboru
-# aby kód fungoval, tak je treba tento řádek odkomentovat a vlozit vlastní API klic
+# we will keep the URL (or URI) in variable URL
+# don't forget to get your own API key
 
 #URL <- "http://api.eia.gov/series/?api_key=YOUR_API_KEY_HERE&series_id=PET.MCRFPUS2.M&out=xml"
 
-# dale predpokladame, ze jsme tak ucinili a zpracujeme vysledky dotazu
-
-# stahneme a "zpracujeme" XML
+# data download and processing
 XML <- getURL(URL, httpheader = list('User-Agent' = 'R-Agent'))
 tree <- xmlTreeParse(XML, useInternalNodes=TRUE)
   
-# vytahneme z XMLka prislusne hodnoty
+# get values of interest from the XML file
 date <- xpathSApply(tree,"//series/row/data/row/date", xmlValue)
 value <- xpathSApply(tree,"//series/row/data/row/value", function(x) as.numeric(xmlValue(x)))
 
-# data budou potrebovat jeste trochu prace
-# musime je dostat do takoveho formatu, aby R-ko pochopilo, ze jsou to skutecne datumy
+# OK, now let's convert the data to time series object
+# first, convert date so that R understands it really is date
 d <- as.Date(paste(substr(date, 1, 4),
                    substr(date, 5, 6),
                    "01", sep = "-"))
 
-# vysledek ulozime do promenne 'prod'
+# save the results to variable called 'prod'
 prod <- xts(value, d); colnames(prod) <- "US_oil_prod"
 
-# a zobrazime produkci za poslednich 12 mesicu
+# ...and show the data for the last 12 months (available)
 tail(prod, 12)
 
 ```
 
-A na konec můžeme přidat i graf:
+Now, we can easily plot the data we just downloaded...
 
 ```{r plot, echo=TRUE}
-plot(prod, main = "Měsíční produkce ropy v USA", ylab = "tisíce barelů denně")
+plot(prod, main = "Monthly US crude oil production", ylab = "thousand barrels per day")
 ```
 
-Možná si říkáte, k čemu je to všechno dobré, když se na graf konec konců můžeme podívat i na webu a data můžeme stáhnout i do Excelu.
+You may be thinking. Why should I do it? Why should I learn how to write an R script when I could simply download the same data in an excel file or see the plot on EIA website?
 
-Vězte, že důvodů je celá řada. Ten hlavní je, že takto vytvořený report je reprodukovatelný (za měsíc, až budou nová data, jej spustíme znovu, dojdeme si pro čaj (nebo se spíš jednou zatočíme na židli) a až se vrátíme, tak na nás čekají nové výsledky). Kód uvedený výše je sice jen "jednorázovka", ale fantazii se meze nekladou. Stahování a zpracování dat lze například snadno zabalit do vhodných funkcí, které by opakování těchto úkonů, například pro jinou časovou řadu, velmi usnadnily...
+Well, there are many reasons! The most important one probably is that the script above (or the report based on the script such as this blog post) is reproducible. That means that you can run exactly the same script next month, get a coffee (or rather take a look from the window for 5 seconds) and the new plot is done!
 
-A co se týče možností analýzy v Excelu a R, tak ty jsou v zásadě neporovnatelné:-). 
+Of course, you can do much more than just simple plot the data. One obvious extension of the script above for example is to wrap its key parts into a function that can download the data for any time series. And as far as the comparison of analytical tools available in R and in Excel is concerned, needles to say that the former goes far beyond what can you do in Excel spreadsheet...
 
