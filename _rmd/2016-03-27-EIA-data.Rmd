@@ -27,7 +27,7 @@ First, We will have to download some external libraries from the list above. Nam
 
 So, let's say we want to download monthly data on the US crude oil production. Anyone who has ever heard of "the shale revolution" would know that this kind of data has been attracting a lot of attention in the recent years.
 
-After a while one can easily find [this](http://www.eia.gov/opendata/qb.cfm?category=296686&sdid=PET.MCRFPUS2.M) webpage. It contains all the information we need to know, in particular the code of the series (__PET.MCRFPUS2.M__). If we have the code, we can retrieve and process the data using the following script (warning: you have to use your own API key to be able to use the script).
+After a while one can quite easily find [this](http://www.eia.gov/opendata/qb.cfm?category=296686&sdid=PET.MCRFPUS2.M) webpage. It contains all the information we need to know, in particular the code of the series (__PET.MCRFPUS2.M__). If we have the code, we can retrieve and process the data using the following script (warning: you have to use your own API key to be able to use the script).
 
 ```{r true_url, echo = FALSE}
 URL <- "http://api.eia.gov/series/?api_key=A3C0FAC177DFBC4B1A4C157DC8198257&series_id=PET.MCRFPUS2.M&out=xml"
