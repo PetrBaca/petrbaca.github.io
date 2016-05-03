@@ -96,7 +96,11 @@ par(op)
 
 The plot above shows what actually drives the evolution of the crack spread (crack spread is just an average of gasoline and heating oil spreads). The plot clearly shows that processing crude into heating oil has been less and less profitable.
 
+<<<<<<< HEAD
 The plot also shows that the recent surge in oil prices has probably had something to do with rising gasoline prices. On the other hand, it is not clear if this year's situation is extraordinary. To check this we will seasonally decompose the series (STL) and do the seasonality plot.
+=======
+On the other hand, the plot shows that the recent surge in oil prices has probably had something to do with rising gasoline prices. On the other hand, it is not clear if this year's situation is extraordinary. To check this we will seasonally decompose the series (STL) and do the seasonality plot.
+>>>>>>> 3aaa0b0f8a445f0933e9dcb8cd8c30a0b07e58c7
 
 ```{r seasonality_check, message = FALSE}
 
@@ -121,7 +125,11 @@ par(op)
 
 ```
 
+<<<<<<< HEAD
 While the first plot clearly shows there's a strong seasonal component, the second plot unveils that this year's situation is not extraordinary at all. Quite contrary, despite its recent surge, this year's gasoline crack spread is still below its medium-term median and below the levels observed last year. And that holds in spite of the fact that the most recent monhly set of data from the Energy Information Administration showed the largest increase in US gasoline consumption in about 40 years. So, at least for now, the US refineries seem to be well prepared for high summer demand for gasoline.
+=======
+While the first plot clearly shows there's a strong seasonal component, the second plot unveils that this year's situation is not extraordinary. Quite contrary, despite the recent surge, this year's gasoline crack spread is still below its medium-term median and below the levels observed last year. And that holds in spite of the fact that the most recent monhly set of data from the Energy Information Administration showed the largest increase in US gasoline consumption in about 40 years...
+>>>>>>> 3aaa0b0f8a445f0933e9dcb8cd8c30a0b07e58c7
 
 
 
