@@ -27,10 +27,47 @@ Accordingly, 2:1:1 crack spread means that we have one barrel of gasoline and on
 In our analysis, we will use R and data from EIA API (for more details on how to download data, see the previous [post](http://petrbaca.github.io/2016/03/27/EIA-data/)). We will focus on futures based prices.
  
 
+{% highlight text %}
+## Loading required package: zoo
+{% endhighlight %}
+
+
+
+{% highlight text %}
+## 
+## Attaching package: 'zoo'
+{% endhighlight %}
+
+
+
+{% highlight text %}
+## The following objects are masked from 'package:base':
+## 
+##     as.Date, as.Date.numeric
+{% endhighlight %}
+
+
+
+{% highlight text %}
+## Loading required package: XML
+{% endhighlight %}
+
+
+
+{% highlight text %}
+## Loading required package: RCurl
+{% endhighlight %}
+
+
+
+{% highlight text %}
+## Loading required package: bitops
+{% endhighlight %}
+ 
+ 
  
 
 {% highlight r %}
-library("xts")
 tail(dat)
 {% endhighlight %}
 
@@ -38,12 +75,12 @@ tail(dat)
 
 {% highlight text %}
 ##            Crude Gasoline HeatingOil
-## 2016-04-19 41.08    1.480      1.263
-## 2016-04-20 42.63    1.507      1.332
-## 2016-04-21 43.18    1.516      1.300
-## 2016-04-22 43.73    1.531      1.309
-## 2016-04-25 42.64    1.513      1.290
-## 2016-04-26 44.04    1.566      1.333
+## 2016-06-21 48.85    1.593      1.517
+## 2016-06-22 49.13    1.588      1.505
+## 2016-06-23 50.11    1.604      1.521
+## 2016-06-24 47.64    1.525      1.455
+## 2016-06-27 46.33    1.477      1.429
+## 2016-06-28 47.85    1.510      1.471
 {% endhighlight %}
  
 Ok, now we have our data so let's calculate price spreads and also crack spreads. To do that, we first have to convert gasoline and heating oil prices from USD/gallon to USD/barrel (by multiplying by 42).
@@ -106,7 +143,6 @@ seas_dat <- ts(coredata(seas_dat),
                start = as.numeric(unlist(strsplit(as.character(start(seas_dat)), "-"))[1:2]),
                freq = 12)
  
- 
 seas_dat_sa <- stl(seas_dat[,1], s.window = 11)
 plot(seas_dat_sa, main = "Gasoline difference, seasonal decomposition")
 {% endhighlight %}
@@ -130,16 +166,5 @@ legend("topleft", legend = c("2015" ,"2016"), lty = c(1,3), lwd = 3, bty = "n")
 par(op)
 {% endhighlight %}
  
-While the first plot clearly shows there's a strong seasonal component, the second plot unveils that this year's situation is not extraordinary at all. Quite contrary, despite its recent surge, this year's gasoline crack spread is still below its medium-term median and below the levels observed last year. And that holds in spite of the fact that the most recent monhly set of data from the Energy Information Administration showed the largest increase in US gasoline consumption in about 40 years. So, at least for now, the US refineries seem to be well prepared for high summer demand for gasoline.
- 
 While the first plot clearly shows there's a strong seasonal component, the second plot unveils that this year's situation is not extraordinary. Quite contrary, despite the recent surge, this year's gasoline crack spread is still below its medium-term median and below the levels observed last year. And that holds in spite of the fact that the most recent monhly set of data from the Energy Information Administration showed the largest increase in US gasoline consumption in about 40 years. So, it looks like the US refineries are well prepared for peak summer demand for gasoline, at least for now.
- 
- 
- 
- 
- 
- 
- 
- 
- 
  
