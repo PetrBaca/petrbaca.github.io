@@ -7,7 +7,7 @@ status: publish
 draft: false
 tags: R
 ---
-##### How to choose the right explanatory variables?
+##### How to choose the *right* explanatory variables?
  
 One of the key issues when forecasting time series data is to find relevant information that may help with this difficult task.
  
